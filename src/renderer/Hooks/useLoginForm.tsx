@@ -5,18 +5,26 @@ interface IUserInfo {
   password: String
 }
 
-const useLoginForm = () => {
+interface IUserLoginForm {
+  userInfo: IUserInfo,
+  changeUserName(name: String): void,
+  changePassword(password: String): void
+}
 
-  const [userInfo, setUserInfo] = useState<IUserInfo>({
-    userName: '',
-    password: ''
-  })
+const defaultValue: IUserInfo = {
+  userName: '',
+  password: ''
+}
+
+const useLoginForm = (initialValue: IUserInfo = defaultValue): IUserLoginForm => {
+
+  const [userInfo, setUserInfo] = useState<IUserInfo>(initialValue)
 
   const changeUserName = (name: String) => {
     setUserInfo({...userInfo, userName: name})
   }
 
-  const changePasssword = (password: String) => {
+  const changePassword = (password: String) => {
     setUserInfo({...userInfo, password: password})
   }
 
@@ -24,7 +32,7 @@ const useLoginForm = () => {
   return {
     userInfo,
     changeUserName,
-    changePasssword
+    changePassword
   }
 }
 
