@@ -1,25 +1,30 @@
 import React, { useState } from 'react'
 import { LoginContainer } from './StyledComponent'
 
+interface IUserInfo {
+  userName: String,
+  password: String
+}
+
 const LoginPage: React.FC = () => {
-  
-  const [userName, setUserName] = useState('')
-  const [password, setPassword] = useState('')
 
-  const handleUserNameOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value)
-  }
+  const [userInfo, setUserInfo] = useState<IUserInfo>({
+    userName: '',
+    password: ''
+  })
 
-  const handlePasswordOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
+  const handleUserInfoOnChange = (event: React.ChangeEvent<HTMLInputElement>, attr: PropertyKey) => {
+
+    const userInfoToChange = Object.defineProperty({...userInfo}, attr, {value: event.target.value})
+    setUserInfo(userInfoToChange)
   }
 
   return (
     <LoginContainer>
       LOGIN
-      <input type='text' onChange={handleUserNameOnChange}/>
-      <input type='password' onChange={handlePasswordOnChange} />
-      <button>Log in</button>
+      <input type='text' onChange={(event) => handleUserInfoOnChange(event, 'userName')}/>
+      <input type='password' onChange={(event) => handleUserInfoOnChange(event, 'password')} />
+      <button onClick={() => console.log({userInfo})}>Log in</button>
     </LoginContainer>
   )
 }
